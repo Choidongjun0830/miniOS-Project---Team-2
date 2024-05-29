@@ -18,7 +18,12 @@ typedef struct {
 
 Process createDefaultProcess();
 
-void round_robin(Process *processes, int num_processes, int quantum);
+void round_robin(Process *processes, int num_processes, int quantum, char (*gantt_chart)[100], int *count);
+void fcfs(Process *processes, int num_processes, char (*gantt_chart)[100], int *count);
+void sjf(Process *processes, int num_processes, char (*gantt_chart)[100], int *count);
+void srtf(Process *processes, int num_processes, char (*gantt_chart)[100], int *count);
+void priority_scheduling(Process *processes, int num_processes, char (*gantt_chart)[100], int *count);
+
 int schedule();
 
 #endif
