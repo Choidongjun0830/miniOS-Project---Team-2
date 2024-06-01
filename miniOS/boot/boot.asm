@@ -1,7 +1,7 @@
 [org 0]
 [bits 16]
 
-jmp 0x0000:start
+jmp start
 
 start:
     mov ax, 0x07C0
@@ -14,42 +14,42 @@ start:
 print_loop1:
     lodsb
     or al, al
-    jz miniOS_info
+    jz print_miniOS_info
     mov ah, 0x0E
     int 0x10
     jmp print_loop1
 
-miniOS_info:
+print_miniOS_info:
     mov si, miniOS_info
 print_loop2:
     lodsb
     or al, al
-    jz PS_info
+    jz print_PS_info
     mov ah, 0x0E
     int 0x10
     jmp print_loop2
 
-PS_info:
+print_PS_info:
     mov si, PS_info
 print_loop3:
     lodsb
     or al, al
-    jz MM_info
+    jz print_MM_info
     mov ah, 0x0E
     int 0x10
     jmp print_loop3
 
-MM_info:
+print_MM_info:
     mov si, MM_info
 print_loop4:
     lodsb
     or al, al
-    jz GUI_info
+    jz print_GUI_info
     mov ah, 0x0E
     int 0x10
     jmp print_loop4
 
-GUI_info:
+print_GUI_info:
     mov si, GUI_info
 print_loop5:
     lodsb
