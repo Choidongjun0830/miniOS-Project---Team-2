@@ -25,7 +25,6 @@ start:
     mov si, GUI_info
     call print_msg
 
-    ; "[Team 2/KKJ, LJU, CSH, CDJ]" 메시지 출력
     mov si, team_info
     call print_msg
 
