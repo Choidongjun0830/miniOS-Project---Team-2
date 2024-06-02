@@ -11,53 +11,38 @@ start:
     mov sp, 0x7C00
 
     mov si, msg
-print_loop1:
-    lodsb
-    or al, al
-    jz print_miniOS_info
-    mov ah, 0x0E
-    int 0x10
-    jmp print_loop1
+    call print_msg
 
-print_miniOS_info:
     mov si, miniOS_info
-print_loop2:
-    lodsb
-    or al, al
-    jz print_PS_info
-    mov ah, 0x0E
-    int 0x10
-    jmp print_loop2
+    call print_msg
 
-print_PS_info:
     mov si, PS_info
-print_loop3:
-    lodsb
-    or al, al
-    jz print_MM_info
-    mov ah, 0x0E
-    int 0x10
-    jmp print_loop3
+    call print_msg
 
-print_MM_info:
     mov si, MM_info
-print_loop4:
-    lodsb
-    or al, al
-    jz print_GUI_info
-    mov ah, 0x0E
-    int 0x10
-    jmp print_loop4
+    call print_msg
 
-print_GUI_info:
     mov si, GUI_info
-print_loop5:
-    lodsb
-    or al, al
-    jz hang
-    mov ah, 0x0E
-    int 0x10
-    jmp print_loop5
+    call print_msg
+
+    jmp hang
+
+print_msg:
+    print_loop:
+        lodsb
+        or al, al
+        jz done
+        mov ah, 0x0E
+        int 0x10
+        jmp print_loop
+
+    done:
+        mov al, 0x0A
+        mov ah, 0x0E 
+        int 0x10
+        mov al, 0x0D
+        int 0x10
+        ret
 
 hang:
     jmp hang
