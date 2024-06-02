@@ -47,7 +47,7 @@ print_msg:
 hang:
     jmp hang
 
-msg db 'Booting from miniOS!', 0
+msg db 'The current OS is miniOS!', 0
 miniOS_info db 'miniOS Information:', 0
 PS_info db '1. Process Scheduling: FCFS, SJF, SRTF, Round Robin', 0
 MM_info db '2. Memory Management: First Fit, Best Fit', 0
