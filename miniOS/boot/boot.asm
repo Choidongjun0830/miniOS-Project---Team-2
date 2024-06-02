@@ -25,6 +25,10 @@ start:
     mov si, GUI_info
     call print_msg
 
+    ; "[Team 2/KKJ, LJU, CSH, CDJ]" 메시지 출력
+    mov si, team_info
+    call print_msg
+
     jmp hang
 
 print_msg:
@@ -52,6 +56,7 @@ miniOS_info db 'miniOS Information:', 0
 PS_info db '1. Process Scheduling: FCFS, SJF, SRTF, Round Robin', 0
 MM_info db '2. Memory Management: First Fit, Best Fit', 0
 GUI_info db '3. GUI: Login, Input Entry, Output Text, Scroll', 0
+team_info db '[Team 2/KKJ, LJU, CSH, CDJ]', 0
 
 times 510-($-$$) db 0
 dw 0xAA55
