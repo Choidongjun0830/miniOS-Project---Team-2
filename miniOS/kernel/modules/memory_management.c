@@ -170,4 +170,24 @@ void print_memory_blocks() {
             printf("Block %d: UNUSED\n", i);  // 사용되지 않는 블록 표시
         }
     }
+<<<<<<< HEAD
+=======
+}
+
+
+int print_memory_blocks_test(char* buffer, int l) {
+    int len = l;
+
+    len += sprintf(buffer+len,"Memory Blocks Status\n");
+    for (int i = MAX_MEM_BLOCKS - 1; i >= 0 ; i--) {
+        if (memory_blocks[i].in_use_flag) {  // 메모리 블록이 사용 중인지 확인
+            len += sprintf(buffer+len,"Block %d: Process_ID = %d, Block_ID=%d, Size=%zu, Address=%p\n", 
+            i, memory_blocks[i].process.pid, memory_blocks[i].block_id, memory_blocks[i].size, memory_blocks[i].addr);
+        } else {
+            len += sprintf(buffer+len,"Block %d: UNUSED\n", i);  // 사용되지 않는 블록 표시
+        }
+    }
+
+    return len;
+>>>>>>> fd0e134 (gtk update)
 }
