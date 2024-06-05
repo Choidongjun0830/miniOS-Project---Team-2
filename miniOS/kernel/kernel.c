@@ -4,6 +4,8 @@
 #include <readline/readline.h>
 #include <readline/history.h>
 #include <gtk/gtk.h>
+#include <time.h>
+#include <glib.h>
 
 #include "system.h"
 #include "memory_management.h"
@@ -19,19 +21,27 @@ static void process_input(GtkWidget *widget, gpointer data);
 static gboolean close_window(GtkWidget *widget, GdkEvent *event, gpointer data);
 static void clear_output(GtkWidget *widget, gpointer data);
 int test(int a, int b);
+static void write_log(const char *input, const char *user);
 
 // Global variables
 GtkWidget *login_window, *welcome_window;
 GtkWidget *id_entry, *pw_entry, *input_entry, *output_text;
+GHashTable *user_table;
+const char *logged_user = NULL;
 
 int main(int argc, char *argv[]) {
-    print_minios("[MiniOS SSU] Hello, World!");
 
     gtk_init(&argc, &argv);
+    init_partitions();
 
     // Create tag for colored output
     GtkTextBuffer *buffer = NULL;
     GtkTextTag *red_tag = NULL;
+
+    // Create user table
+    user_table = g_hash_table_new(g_str_hash, g_str_equal);
+    g_hash_table_insert(user_table, "minios", "4321");
+    g_hash_table_insert(user_table, "ssu", "1234");
 
     // Create login window
     login_window = gtk_window_new(GTK_WINDOW_TOPLEVEL);
@@ -97,11 +107,13 @@ static void login_button_clicked(GtkWidget *widget, gpointer data) {
     const gchar *id = gtk_entry_get_text(GTK_ENTRY(id_entry));
     const gchar *pw = gtk_entry_get_text(GTK_ENTRY(pw_entry));
 
-    // maybe use hash?
-    // just use strcmp for now
-    if (g_strcmp0(id, "ssu") == 0 && g_strcmp0(pw, "1234") == 0) {
+    const char *correct_pw = (const char *)g_hash_table_lookup(user_table, id);
+    if (correct_pw != NULL && strcmp(pw, correct_pw) == 0) {
         gtk_widget_hide(login_window);
         gtk_widget_show_all(welcome_window);
+        logged_user = id;
+        g_print("[MiniOS SSU] Welcome, user %s\n",logged_user);
+        write_log("user login", logged_user);
     } else {
         g_print("Invalid username or password! Please try again.\n");
     }
@@ -118,7 +130,10 @@ static void process_input(GtkWidget *widget, gpointer data) {
     gtk_text_buffer_insert(buffer, &end_iter, "\n", -1);
 
     // basic output
-    char output[100];
+    char output[200];
+    int len;
+
+    len = sprintf(output, ">>  ");
 
     char *token = strtok((char *)input_text, " ");
 
@@ -133,7 +148,7 @@ static void process_input(GtkWidget *widget, gpointer data) {
                 b = atoi(token);
                 int result = test(a, b);
 
-                sprintf(output, ">>  %d\n", result);
+                len += sprintf(output+len, "%d\n", result);
                 gtk_text_buffer_insert_with_tags_by_name(buffer, &end_iter, output, -1, "red_tag", NULL);
             }
         }
@@ -147,7 +162,7 @@ static void process_input(GtkWidget *widget, gpointer data) {
     else if(token != NULL && strcmp(token, "repeat") == 0) {
         token = strtok(NULL, " ");
 
-        sprintf(output, ">>  %s\n", token);
+        len += sprintf(output+len, "%s\n", token);
         gtk_text_buffer_insert_with_tags_by_name(buffer, &end_iter, output, -1, "red_tag", NULL);
     }
 
@@ -171,11 +186,7 @@ static void process_input(GtkWidget *widget, gpointer data) {
         gtk_text_buffer_insert_with_tags_by_name(buffer, &end_iter, output, -1, "red_tag", NULL);
     }
 
-    // 메모리 해제
-    free(input);
-    print_minios("[MiniOS SSU] MiniOS Shutdown........");
-
-    return(1);
+    gtk_entry_set_text(GTK_ENTRY(input_entry), "");
 }
 
 void print_minios(char* str) {
@@ -199,6 +210,26 @@ int test(int a, int b) {
     return a + b;
 }
 
+static void write_log(const char *input, const char *user) {
+    FILE *log_file = fopen("log.txt", "a");
+    if (log_file == NULL) {
+        g_print("Error opening log file\n");
+        return;
+    }
+
+    time_t current_time = time(NULL);
+    struct tm *local_time = localtime(&current_time);
+    char time_str[20];
+    strftime(time_str, sizeof(time_str), "%Y/%m/%d %T", local_time);
+
+    if (user != NULL) {
+        fprintf(log_file, "[%s] %s: %s\n", time_str, user, input);
+    } else {
+        fprintf(log_file, "[%s] %s\n", time_str, input);
+    }
+
+    fclose(log_file);
+}
 
 
 // void print_minios(char* str);

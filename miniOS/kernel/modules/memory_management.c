@@ -170,8 +170,6 @@ void print_memory_blocks() {
             printf("Block %d: UNUSED\n", i);  // 사용되지 않는 블록 표시
         }
     }
-<<<<<<< HEAD
-=======
 }
 
 
@@ -189,5 +187,4 @@ int print_memory_blocks_test(char* buffer, int l) {
     }
 
     return len;
->>>>>>> fd0e134 (gtk update)
 }
