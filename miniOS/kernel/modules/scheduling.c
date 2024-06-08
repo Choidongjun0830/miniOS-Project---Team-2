@@ -1,7 +1,7 @@
 #include "memory_management.h"
 #include "scheduling.h"
 
-Process createDefaultProcess() {
+Process create_default_process() {
     Process p = {
         .pid = 0,
         .priority = 0,
@@ -299,19 +299,16 @@ void srtf(Process *processes, int num_processes, char (*gantt_chart)[100], int *
     while (completed_processes < num_processes) {
         int shortest_index = -1;
         int shortest_time = INT_MAX;
-
         for (int i = 0; i < num_processes; ++i) {
             if (processes[i].arrival_time <= current_time && processes[i].remaining_time > 0 && processes[i].remaining_time < shortest_time) {
                 shortest_index = i;
                 shortest_time = processes[i].remaining_time;
             }
         }
-
         if (shortest_index == -1) {
             current_time++;
             continue;
         }
-
         if (processes[shortest_index].mem_block_id == 0) {
             processes[shortest_index].mem_block_id = dyna_alloc(processes[shortest_index].size, processes[shortest_index]);
             if (processes[shortest_index].mem_block_id == -1) {
@@ -323,51 +320,23 @@ void srtf(Process *processes, int num_processes, char (*gantt_chart)[100], int *
         if (temp == 0)
            index = shortest_index;
         print_memory_blocks();
-        
-        
-        
-        
 
-        
-
-        /*strcpy(gantt_chart[*count], "(");
-        (*count)++;
-
-        sprintf(buffer, "%d", current_time + 1);
-        strcpy(gantt_chart[*count], buffer);
-        (*count)++;
-
-        strcpy(gantt_chart[*count], "s)");
-        (*count)++;
-
-        strcpy(gantt_chart[*count], " P");
-        (*count)++;
-
-        sprintf(buffer, "%d", processes[shortest_index].pid);
-        strcpy(gantt_chart[*count], buffer);
-        (*count)++;*/
-
-        if (processes[index].remaining_time == 0) {
+	if (processes[index].remaining_time == 0) {
             processes[index].completion_time = current_time;
             dyna_free(processes[index].mem_block_id);
             
             strcpy(gantt_chart[*count], "(");
             (*count)++;
-
             sprintf(buffer, "%d", current_time);
             strcpy(gantt_chart[*count], buffer);
             (*count)++;
-
             strcpy(gantt_chart[*count], "s)");
             (*count)++;
-
             strcpy(gantt_chart[*count], " P");
             (*count)++;
-
             sprintf(buffer, "%d", processes[index].pid);
             strcpy(gantt_chart[*count], buffer);
             (*count)++;
-            
             strcpy(gantt_chart[*count], " completed\n");
             (*count)++;
             for (int t = 0; t < current_time; ++t) {
@@ -383,21 +352,16 @@ void srtf(Process *processes, int num_processes, char (*gantt_chart)[100], int *
             if (index != shortest_index) {
             	strcpy(gantt_chart[*count], "(");
                 (*count)++;
-
                 sprintf(buffer, "%d", current_time);
                 strcpy(gantt_chart[*count], buffer);
                 (*count)++;
-
                 strcpy(gantt_chart[*count], "s)");
                 (*count)++;
-
                 strcpy(gantt_chart[*count], " P");
                 (*count)++;
-
                 sprintf(buffer, "%d", processes[index].pid);
                 strcpy(gantt_chart[*count], buffer);
                 (*count)++;
-                
             	strcpy(gantt_chart[*count], " /");
             	(*count)++;
             	sprintf(buffer, "%d", processes[index].remaining_time);
@@ -419,31 +383,24 @@ void srtf(Process *processes, int num_processes, char (*gantt_chart)[100], int *
         }
         if (processes[shortest_index].remaining_time == 0)
            completed_processes++;
-        
         index = shortest_index;
     }
     processes[index].completion_time = current_time;
     completed_processes++;
     dyna_free(processes[index].mem_block_id);
     print_memory_blocks();
-            
     strcpy(gantt_chart[*count], "(");
     (*count)++;
-
     sprintf(buffer, "%d", current_time);
     strcpy(gantt_chart[*count], buffer);
     (*count)++;
-
     strcpy(gantt_chart[*count], "s)");
     (*count)++;
-
     strcpy(gantt_chart[*count], " P");
     (*count)++;
-
     sprintf(buffer, "%d", processes[index].pid);
     strcpy(gantt_chart[*count], buffer);
     (*count)++;
-            
     strcpy(gantt_chart[*count], " completed\n");
     (*count)++;
     for (int t = 0; t < current_time; ++t) {
@@ -455,7 +412,6 @@ void srtf(Process *processes, int num_processes, char (*gantt_chart)[100], int *
     total_waiting_time += waiting_time;
     int turnaround_time = current_time - processes[index].arrival_time;
     total_turnaround_time += turnaround_time;
-            
     float avg_waiting_time = (float)total_waiting_time / num_processes;
     float avg_turnaround_time = (float)total_turnaround_time / num_processes;
     printf("\n");
