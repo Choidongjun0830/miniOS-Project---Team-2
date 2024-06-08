@@ -28,6 +28,7 @@ GtkWidget *login_window, *welcome_window;
 GtkWidget *id_entry, *pw_entry, *input_entry, *output_text;
 GHashTable *user_table;
 const char *logged_user = NULL;
+int fs_mode = 0;
 
 int main(int argc, char *argv[]) {
 
@@ -72,7 +73,7 @@ int main(int argc, char *argv[]) {
     // Create welcome window
     welcome_window = gtk_window_new(GTK_WINDOW_TOPLEVEL);
     gtk_window_set_title(GTK_WINDOW(welcome_window), "miniOS");
-    gtk_window_set_default_size(GTK_WINDOW(welcome_window), 400, 300);
+    gtk_window_set_default_size(GTK_WINDOW(welcome_window), 1280, 720);
     gtk_window_set_position(GTK_WINDOW(welcome_window), GTK_WIN_POS_CENTER);
     g_signal_connect(welcome_window, "delete-event", G_CALLBACK(close_window), NULL);
 
@@ -172,13 +173,104 @@ static void process_input(GtkWidget *widget, gpointer data) {
         exit(0);
     }
 
-    // your_funciton
-    else if(token != NULL && strcmp(token, "your_function") == 0) {
+
+
+    // file system
+    else if (token != NULL && strcmp(token, "filesystem") == 0 && fs_mode == 0) {
+        fs_mode = 1;
+        disk_init();
+        fs_format();
+        fs_mount();
+        len += sprintf(output+len, "Entered file system mode.\n\tAvailable commands: create <name>, write <name> <content>, read <name>\n");
+        gtk_text_buffer_insert_with_tags_by_name(buffer, &end_iter, output, -1, "red_tag", NULL);
+    }
+
+    else if (token != NULL && strcmp(token, "format") == 0) {
+        if (fs_mode == 0) {
+            len += sprintf(output+len, "file system is currently off! Please activate file system by cmd: filesystem\n");
+            gtk_text_buffer_insert_with_tags_by_name(buffer, &end_iter, output, -1, "red_tag", NULL);
+
+            return;
+        }
+
+        fs_format();
+        len += sprintf(output+len, "file system formatted.\n");
+        gtk_text_buffer_insert_with_tags_by_name(buffer, &end_iter, output, -1, "red_tag", NULL);
+    }
+    else if (token != NULL && strcmp(token, "mount") == 0) {
+        if (fs_mode == 0) {
+            len += sprintf(output+len, "file system is currently off! Please activate file system by cmd: filesystem\n");
+            gtk_text_buffer_insert_with_tags_by_name(buffer, &end_iter, output, -1, "red_tag", NULL);
+
+            return;
+        }
+
+        fs_mount(NULL);  // 메모리 디스크를 사용하기 때문에 경로는 필요 없음
+        len += sprintf(output+len, "file system mounted.\n");
+        gtk_text_buffer_insert_with_tags_by_name(buffer, &end_iter, output, -1, "red_tag", NULL);
+    } 
+    else if (token != NULL && strcmp(token, "create") == 0) {
+        if (fs_mode == 0) {
+            len += sprintf(output+len, "file system is currently off! Please activate file system by cmd: filesystem\n");
+            gtk_text_buffer_insert_with_tags_by_name(buffer, &end_iter, output, -1, "red_tag", NULL);
+
+            return;
+        }
+
         token = strtok(NULL, " ");
 
+        fs_create(token); 
+        len += sprintf(output+len, "File '%s' created.\n", token);
+        gtk_text_buffer_insert_with_tags_by_name(buffer, &end_iter, output, -1, "red_tag", NULL);
+    } 
+    else if (token != NULL && strcmp(token, "read") == 0) {
+        if (fs_mode == 0) {
+            len += sprintf(output+len, "file system is currently off! Please activate file system by cmd: filesystem\n");
+            gtk_text_buffer_insert_with_tags_by_name(buffer, &end_iter, output, -1, "red_tag", NULL);
 
-        // your function here
+            return;
+        }
+
+        token = strtok(NULL, " ");
+
+        char buf[BLOCK_SIZE];
+        fs_read(token, buf, BLOCK_SIZE, 0);
+
+        len += sprintf(output+len,"File content: %s\n", buf);
+        gtk_text_buffer_insert_with_tags_by_name(buffer, &end_iter, output, -1, "red_tag", NULL);
+    } 
+    else if (token != NULL && strcmp(token, "write") == 0) {
+        if (fs_mode == 0) {
+            len += sprintf(output+len, "file system is currently off! Please activate file system by cmd: filesystem\n");
+            gtk_text_buffer_insert_with_tags_by_name(buffer, &end_iter, output, -1, "red_tag", NULL);
+
+            return;
+        }
+
+        // token: file name
+        token = strtok(NULL, " ");
+        
+        char* fileName = (char*)malloc(strlen(token) + 1);
+        strcpy(fileName, token);
+
+        // token: insert context
+        token = strtok(NULL, " ");
+
+        fs_write(fileName, token, strlen(token) + 1, 0);
+        
+        len += sprintf(output+len, "Content '%s' written to file '%s'.\n", token, fileName);
+        gtk_text_buffer_insert_with_tags_by_name(buffer, &end_iter, output, -1, "red_tag", NULL);
+    } 
+    else if (token != NULL && strcmp(token, "close") == 0) {
+        fs_unmount();
+        fs_mode = 0;
+
+        len += sprintf(output+len, "Exit file system mode. \n");
+        gtk_text_buffer_insert_with_tags_by_name(buffer, &end_iter, output, -1, "red_tag", NULL);
+        printf("Exit file system mode. \n");
     }
+
+    
 
     // Invalid
     else {
