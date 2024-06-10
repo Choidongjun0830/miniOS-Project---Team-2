@@ -2,7 +2,7 @@
 
 miniOS-project/  
 ├── README.md               # 프로젝트 설명 및 사용 방법 문서  
-├── Makefile                # 전체 프로젝트 빌드 자동화를 위한 메이크파일  
+├── 
 ├── boot/                   # 부트로더 소스 코드  
 O   └── boot.asm            # 부트로더 어셈블리 코드, miniOS 기능을 화면에 출력  
 O   └── Makefile            # 부팅 시 출력되는 화면을 확인하기 위한 메이크파일
@@ -18,8 +18,6 @@ O   ├── kernel.h            # 커널 관련 공통 헤더
 O   ├── drivers/            # 드라이버 헤더 파일  
 O   └── lib/                # 라이브러리 헤더 파일  
 └── scripts/                # 빌드 및 유틸리티 스크립트  
-O   ├── build.sh            # 빌드 스크립트  
-O   └── run_qemu.sh         # QEMU를 통해 OS 이미지 실행 스크립트  
-
-
-, make 명령어 실행을 위해서는 NASM & QEMU 설치 필요
+O   ├── minios              # 
+O   └── README.md           # 프로젝트 내 폴더 설명 문서
+O   └── Makefile            # 전체 프로젝트 빌드 자동화를 위한 메이크파일  
