@@ -4,7 +4,8 @@ miniOS-project/
 ├── README.md               # 프로젝트 설명 및 사용 방법 문서  
 ├── Makefile                # 전체 프로젝트 빌드 자동화를 위한 메이크파일  
 ├── boot/                   # 부트로더 소스 코드  
-O   └── boot.asm            # 부트로더 어셈블리 코드  
+O   └── boot.asm            # 부트로더 어셈블리 코드, miniOS 기능을 화면에 출력  
+O   └── Makefile            # 부팅 시 출력되는 화면을 확인하기 위한 메이크파일
 ├── kernel/                 # 커널 소스 코드  
 O   ├── kernel.c            # 커널 메인 C 소스 파일  
 O   └── ...  
@@ -25,3 +26,4 @@ O   ├── build.sh            # 빌드 스크립트
 O   └── run_qemu.sh         # QEMU를 통해 OS 이미지 실행 스크립트  
 
 
+, make 명령어 실행을 위해서는 NASM & QEMU 설치 필요
