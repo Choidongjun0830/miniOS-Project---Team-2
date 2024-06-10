@@ -13,11 +13,16 @@ O   └── scheduling.h        # 스케줄링 헤더 파일
 O   └── system.h            # 
 
 ├── kernel/                 # 커널 소스 코드  
-O   └── modules             # 커널 모듈
+O   ├── modules             # 커널 모듈
+
 O   └── kernel.c            #
+
 O   └── kernel.o            #
+
 O   └── process.c           #
+
 O   └── system.c            #
+
 O   └── system.o            #
 
 ├── Makefile                # 전체 프로젝트 빌드 자동화를 위한 메이크파일  
