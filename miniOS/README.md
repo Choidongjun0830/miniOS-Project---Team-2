@@ -1,6 +1,7 @@
 # miniOS
 
 miniOS-project/
+
 ├── boot/                   # 부트로더 소스 코드  
 O   └── boot.asm            # 부트로더 어셈블리 코드, miniOS 기능을 화면에 출력  
 O   └── Makefile            # 부팅 시 출력되는 화면을 확인하기 위한 메이크파일
