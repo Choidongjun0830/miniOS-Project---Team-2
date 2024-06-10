@@ -15,6 +15,8 @@ O   └── system.h            # 1
 ├── kernel/                 # 커널 소스 코드  
 O   └── modules             # 커널 모듈  
 O   └── kernel.c            # 커널 소스 파일
+O   └── modules             # 커널 모듈  
+O   └── kernel.c  
 
 O   └── kernel.o            # 커널 오브렉트 파일
 
