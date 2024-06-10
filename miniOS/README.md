@@ -13,6 +13,11 @@ O   └── scheduling.h        # 스케줄링 헤더 파일
 O   └── system.h            # 
 
 ├── kernel/                 # 커널 소스 코드  
+O   └── file_system.h       # 파일 시스템 헤더  
+O   └── memory_management.h # 메모리 관리 헤더 파일  
+O   └── scheduling.h        # 스케줄링 헤더 파일  
+O   └── system.h            # 
+
 O   └── modules             # 커널 모듈
 O   └── kernel.c            #
 
