@@ -14,13 +14,13 @@ O   └── system.h            # 1
 
 ├── kernel/                 # 커널 소스 코드  
 O   └── modules             # 커널 모듈  
-O   └── kernel.c            # 1
-O   └── kernel.o            # 1
-O   └── process.c           # 1
-O   └── system.c            # 1
-O   └── system.o            # 1
+O   └── kernel.c            # 커널 소스 파일
+O   └── kernel.o            # 커널 오브렉트 파일
+O   └── process.c           # 프로세스 소스 파일
+O   └── system.c            # 시스템 소스 파일
+O   └── system.o            # 시스템 오브젝트 파일
 
 ├── Makefile                # 전체 프로젝트 빌드 자동화를 위한 메이크파일  
 ├── README.md               # 프로젝트 내 폴더 설명 문서
-├── minios                  # 1
+├── minios                  # minios
 README.md               # 프로젝트 설명 및 사용 방법 문서 
