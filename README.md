@@ -3,5 +3,4 @@
 1. Bootloader(김강주): 부팅 시, miniOS 기능을 부팅 화면에 출력 
    boot 폴더 내 Makefile 존재, make 명령어 실행을 위해서는 NASM & QEMU 설치 필요 
 
-2. branch gui(최서호): miniOS를 stk gui 위에 출력
-   `schedule` 을 제외한 모든 명령어 지원
+2. branch gui(최서호): miniOS를 stk gui 위에 출력<br/>`schedule` 을 제외한 모든 명령어 지원, **명령어가 약간 다르니 해당 branch의 readme 참고**
