@@ -3,7 +3,7 @@
 
 ## how to run
 1.  `git clone -b gui https://github.com/Choidongjun0830/miniOS-Project---Team-2.git`
-2.  `cd /miniOS-Project---Team-2/miniOS`
+2.  `cd miniOS-Project---Team-2/miniOS`
 3.  `./miniOS`
 
 > ID: ssu
