@@ -5,11 +5,7 @@
 #include <readline/history.h>
 
 #include "system.h"
-#include "forkProgram.h"
-#include "ipcProgram.h"
-#include "calculate_pi.h"
 #include "memory_management.h"
-#include "round_robin.h"
 #include "scheduling.h"
 #include "file_system.h"
 
