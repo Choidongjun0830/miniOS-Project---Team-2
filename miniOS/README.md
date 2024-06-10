@@ -14,10 +14,10 @@ O   └── process.c           #
 O   └── system.c            #
 O   └── system.o            #
 ├── include/                # 헤더 파일  
-O   ├── kernel.h            # 커널 관련 공통 헤더  
-O   ├── drivers/            # 드라이버 헤더 파일  
-O   └── lib/                # 라이브러리 헤더 파일  
-└── scripts/                # 빌드 및 유틸리티 스크립트  
-O   ├── minios              # 
-O   └── README.md           # 프로젝트 내 폴더 설명 문서
-O   └── Makefile            # 전체 프로젝트 빌드 자동화를 위한 메이크파일  
+O   ├── file_system.h       # 파일 시스템 헤더  
+O   ├── memory_management.h # 메모리 관리 헤더 파일  
+O   └── scheduling.h        # 스케줄링 헤더 파일  
+O   └── system.h            # 
+├── Makefile                # 전체 프로젝트 빌드 자동화를 위한 메이크파일  
+├── README.md               # 프로젝트 내 폴더 설명 문서
+├── minios                  # 
