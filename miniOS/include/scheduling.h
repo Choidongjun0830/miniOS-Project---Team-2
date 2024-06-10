@@ -16,7 +16,7 @@ typedef struct {
     size_t size;
 } Process;
 
-Process createDefaultProcess();
+Process create_default_process();
 
 void round_robin(Process *processes, int num_processes, int quantum, char (*gantt_chart)[100], int *count);
 void fcfs(Process *processes, int num_processes, char (*gantt_chart)[100], int *count);
