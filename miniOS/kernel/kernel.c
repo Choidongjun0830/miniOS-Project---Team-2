@@ -122,6 +122,7 @@ static void login_button_clicked(GtkWidget *widget, gpointer data) {
 
 static void process_input(GtkWidget *widget, gpointer data) {
     const gchar *input_text = gtk_entry_get_text(GTK_ENTRY(input_entry));
+    write_log(input_text, logged_user);
 
     GtkTextBuffer *buffer = gtk_text_view_get_buffer(GTK_TEXT_VIEW(output_text));
     GtkTextIter start_iter, end_iter;
@@ -173,6 +174,44 @@ static void process_input(GtkWidget *widget, gpointer data) {
         exit(0);
     }
 
+    // memory & scheduler
+    // scheduler만 cmd에 출력됨
+    else if (token != NULL && strcmp(token, "print_memory") == 0) {
+
+        char* status = print_memory_blocks_gui();
+        strcpy(output, status);
+
+        gtk_text_buffer_insert_with_tags_by_name(buffer, &end_iter, output, -1, "red_tag", NULL);
+    }
+    else if (token != NULL && strcmp(token, "dyna_alloc") == 0) {
+
+        token = strtok(NULL, " ");
+        unsigned int siz = atoi(token);
+
+        size_t size = siz;
+        Process empty_process = createDefaultProcess();
+        int mem_id = dyna_alloc(size, empty_process); 
+        if (mem_id != -1) {
+            len += sprintf(output+len, "Memory allocated and ID is %d\n", mem_id);
+        } else {
+            len += sprintf(output+len, "Memory allocation failed!!\n");
+        }
+
+        gtk_text_buffer_insert_with_tags_by_name(buffer, &end_iter, output, -1, "red_tag", NULL);
+    }
+    else if (token != NULL && strcmp(token, "dyna_free") == 0) {
+
+        token = strtok(NULL, " ");
+
+        int mem_id = atoi(token);
+        dyna_free(mem_id);
+
+        len += sprintf(output+len, "memory ID %s has been successfully released.\n", token);
+        gtk_text_buffer_insert_with_tags_by_name(buffer, &end_iter, output, -1, "red_tag", NULL);
+    }
+    else if (token != NULL && strcmp(token, "scheduling") == 0) {
+        schedule();
+    }
 
 
     // file system
@@ -267,7 +306,6 @@ static void process_input(GtkWidget *widget, gpointer data) {
 
         len += sprintf(output+len, "Exit file system mode. \n");
         gtk_text_buffer_insert_with_tags_by_name(buffer, &end_iter, output, -1, "red_tag", NULL);
-        printf("Exit file system mode. \n");
     }
 
     
@@ -322,61 +360,3 @@ static void write_log(const char *input, const char *user) {
 
     fclose(log_file);
 }
-
-
-// void print_minios(char* str);
-
-// int main() {
-//     print_minios("[MiniOS SSU] Hello, World!");
-
-//     char *input;
-//     init_partitions();
-
-//     while(1) {
-//         // readline을 사용하여 입력 받기
-//         input = readline("커맨드를 입력하세요(종료:exit) : ");
-
-//         if (strcmp(input,"exit") == 0) {
-//             break;
-//         }
-
-//         if (strcmp(input,"minisystem") == 0){
-//             minisystem();
-//         }
-//         else if (strcmp(input, "print memory") == 0) {
-//             print_memory_blocks();
-//         }
-//         else if (strcmp(input, "dyna alloc") == 0) {
-//             printf("Enter memory size to allocate: ");
-//             size_t size;
-//             scanf("%zu", &size);
-//             Process empty_process = createDefaultProcess();
-//             int mem_id = dyna_alloc(size, empty_process); 
-//             if (mem_id != -1) {
-//                 printf("Memory allocated and ID is %d\n", mem_id);
-//             } else {
-//                 printf("Memory allocation is failed!!\n");
-//             }
-//         }
-//         else if (strcmp(input, "dyna free") == 0) {
-//             printf("Enter memory ID to free: ");
-//             int mem_id;
-//             scanf("%d", &mem_id);
-//             dyna_free(mem_id);
-//         }
-//         else if (strcmp(input, "scheduling") == 0) {
-//             schedule();
-//         }
-//         else system(input);
-//     }
-
-//     // 메모리 해제
-//     free(input);
-//     print_minios("[MiniOS SSU] MiniOS Shutdown........");
-
-//     return(1);
-// }
-
-// void print_minios(char* str) {
-//         printf("%s\n",str);
-// }

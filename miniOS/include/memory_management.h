@@ -30,6 +30,6 @@ void print_memory_blocks();
 int dyna_alloc(size_t size, Process process);
 void dyna_free(int free_id);
 void update_free_spaces();
-int print_memory_blocks_test();
+char* print_memory_blocks_gui();
 
 #endif
