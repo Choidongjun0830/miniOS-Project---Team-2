@@ -7,12 +7,12 @@ miniOS-project/
 O   └── boot.asm            # 부트로더 어셈블리 코드, miniOS 기능을 화면에 출력  
 O   └── Makefile            # 부팅 시 출력되는 화면을 확인하기 위한 메이크파일
 ├── kernel/                 # 커널 소스 코드  
-O   ├── kernel.c            # 커널 메인 C 소스 파일  
-O   └── ...  
-├── lib/                    # 커널 라이브러리 및 공통 유틸리티  
-O   ├── stdio.c             # 기본 입출력 함수  
-O   ├── string.c            # 문자열 처리 함수  
-O   └── ...  
+O   ├── modules             # 커널 모듈
+O   └── kernel.c            #
+O   └── kernel.o            #
+O   └── process.c           #
+O   └── system.c            #
+O   └── system.o            #
 ├── include/                # 헤더 파일  
 O   ├── kernel.h            # 커널 관련 공통 헤더  
 O   ├── drivers/            # 드라이버 헤더 파일  
