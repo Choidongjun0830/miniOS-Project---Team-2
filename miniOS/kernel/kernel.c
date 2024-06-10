@@ -37,7 +37,7 @@ int main() {
             printf("Enter memory size to allocate: ");
             size_t size;
             scanf("%zu", &size);
-            Process empty_process = createDefaultProcess();
+            Process empty_process = create_default_process();
             int mem_id = dyna_alloc(size, empty_process); 
             if (mem_id != -1) {
                 printf("Memory allocated and ID is %d\n", mem_id);
