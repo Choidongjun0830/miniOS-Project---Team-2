@@ -7,4 +7,9 @@
 
 2. branch gui(최서호): miniOS를 stk gui 위에 출력<br/>`schedule` 을 제외한 모든 명령어 지원, **명령어가 약간 다르니 해당 branch의 readme 참고**
 
-3. 프로세스 스케줄링 + 메모리 관리, 파일 시스템 (이재우 + 최동준): cd miniOS 후에 ./minios로 실행 가능
+3. 프로세스 스케줄링 + 메모리 관리, 파일 시스템 (이재우 + 최동준): cd miniOS 후에 ./minios로 실행 가능.
+
+   프로세스 별 조건 입력은 pdf 파일을 참고
+
+
+
